@@ -1,0 +1,16 @@
+.ir { display: block; text-indent: -999em; overflow: hidden; background-repeat: no-repeat; text-align: left; direction: ltr; }
+
+.clear { clear: both; display: block; overflow: hidden; visibility: hidden; width: 0; height: 0; }
+.hide { visibility: hidden; }
+
+.clearfix:before, .clearfix:after { content: "\0020"; display: block; height: 0; visibility: hidden; }
+.clearfix:after { clear: both; }
+.clearfix { zoom: 1; }
+ 
+.clearfloat:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+.clearfloat { display: inline-block; }
+
+/* \*/
+* html .clearfloat { height: 1%; }
+.clearfloat { display: block; }
+/* */
