@@ -23,10 +23,6 @@ a.c=d.extend({},a.b,h(a.end));if(a.b.color==i)a.b.color=a.c.color||[0,0,0];a.d=0
 /** jQuery Plugin to obtain touch gestures from iPhone, iPod Touch and iPad, should also work with Android mobile phones (not tested yet!) @author Andreas Waltl, netCU Internetagentur (http://www.netcu.de)  @version 1.1.1 (9th December 2010) - fix bug (older IE's had problems) */
 (function($){$.fn.touchwipe=function(settings){var config={min_move_x:20,min_move_y:20,wipeLeft:function(){},wipeRight:function(){},wipeUp:function(){},wipeDown:function(){},preventDefaultEvents:true};if(settings)$.extend(config,settings);this.each(function(){var startX;var startY;var isMoving=false;function cancelTouch(){this.removeEventListener('touchmove',onTouchMove);startX=null;isMoving=false}function onTouchMove(e){if(config.preventDefaultEvents){e.preventDefault()}if(isMoving){var x=e.touches[0].pageX;var y=e.touches[0].pageY;var dx=startX-x;var dy=startY-y;if(Math.abs(dx)>=config.min_move_x){cancelTouch();if(dx>0){config.wipeLeft()}else{config.wipeRight()}}else if(Math.abs(dy)>=config.min_move_y){cancelTouch();if(dy>0){config.wipeDown()}else{config.wipeUp()}}}}function onTouchStart(e){if(e.touches.length==1){startX=e.touches[0].pageX;startY=e.touches[0].pageY;isMoving=true;this.addEventListener('touchmove',onTouchMove,false)}}if('ontouchstart'in document.documentElement){this.addEventListener('touchstart',onTouchStart,false)}});return this}})(jQuery);
 
-/** jQuery FullScreen Plugin Martin Angelov, Morten Sjøgren 1.1  http://tutorialzine.com/2012/02/enhance-your-website-fullscreen-api/  MIT License */
-(function($){"use strict";function supportFullScreen(){var doc=document.documentElement;return('requestFullscreen'in doc)||('mozRequestFullScreen'in doc&&document.mozFullScreenEnabled)||('webkitRequestFullScreen'in doc)}function requestFullScreen(elem){if(elem.requestFullscreen){elem.requestFullscreen()}else if(elem.mozRequestFullScreen){elem.mozRequestFullScreen()}else if(elem.webkitRequestFullScreen){elem.webkitRequestFullScreen()}}function fullScreenStatus(){return document.fullscreen||document.mozFullScreen||document.webkitIsFullScreen||false}function cancelFullScreen(){if(document.exitFullscreen){document.exitFullscreen()}else if(document.mozCancelFullScreen){document.mozCancelFullScreen()}else if(document.webkitCancelFullScreen){document.webkitCancelFullScreen()}$(document).off('fullscreenchange mozfullscreenchange webkitfullscreenchange')}function onFullScreenEvent(callback){$(document).on("fullscreenchange mozfullscreenchange webkitfullscreenchange",function(){callback(fullScreenStatus())})}$.support.fullscreen=supportFullScreen();$.fn.fullScreen=function(props){if(!$.support.fullscreen||this.length!==1){return this}if(fullScreenStatus()){cancelFullScreen();return this}var options=$.extend({'background':'#111','callback':$.noop(),'fullscreenClass':'fullScreen'},props),elem=this,fs=$('<div>',{'css':{'overflow-y':'auto','background':options.background,'width':'100%','height':'100%'}}).insertBefore(elem).append(elem);elem.addClass(options.fullscreenClass);requestFullScreen(fs.get(0));fs.click(function(e){if(e.target==this){cancelFullScreen()}});elem.cancel=function(){cancelFullScreen();return elem};onFullScreenEvent(function(fullScreen){if(!fullScreen){elem.removeClass(options.fullscreenClass).insertBefore(fs);fs.remove()}options.callback(fullScreen)});return elem};$.fn.cancelFullScreen=function(){cancelFullScreen();return this}}(jQuery));
-
-
 /*
  * jQuery Easing v1.3 - http://gsgd.co.uk/sandbox/jquery/easing/
  *
@@ -408,7 +404,6 @@ var ltSlideshow = function(){
 	}
 		
 	//object.ready();	
-
 	$("#gallery-nav li a").live("click",function(){
 		if ($(this).hasClass("current"))
 			return false;
